@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once 'classes/dbclass.php';
-include_once 'classes/orderClass.php';
+include_once '../classes/dbclass.php';
+include_once '../classes/orderClass.php';
 
 // Check if the user is an admin
 if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {

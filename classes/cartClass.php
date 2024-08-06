@@ -87,5 +87,11 @@ class Cart
             throw new Exception("Error fetching cart items: " . $e->getMessage());
         }
     }
+    public function clearCart($user_id) {
+        $query = "DELETE FROM cart WHERE user_id = :user_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
 }
 ?>

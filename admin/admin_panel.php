@@ -1,7 +1,7 @@
 <?php
 session_start();
-include_once 'classes/dbclass.php';
-include_once 'classes/productClass.php';
+include_once '../classes/dbclass.php';
+include_once '../classes/productClass.php';
 
 // Check if the user is an admin
 if (!isset($_SESSION['is_admin']) || !$_SESSION['is_admin']) {
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
             $message .= " Sorry, your file was not uploaded.";
         } else {
             if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFile)) {
-                $product->name = $name;
+                $product->product_name = $name;
                 $product->description = $description;
                 $product->price = $price;
                 $product->category_id = $category_id;

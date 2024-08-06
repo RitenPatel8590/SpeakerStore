@@ -47,16 +47,17 @@ $num = $stmt->rowCount();
                         <?php
                         $categories = $product->getCategories();
                         while ($category = $categories->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<option value='" . $category['id'] . "'>" . $category['name'] . "</option>";
-                        }
-                        ?>
+                    $selected = (isset($_GET['category']) && $_GET['category'] == $category['category_id']) ? 'selected' : '';
+                    echo "<option value='" . $category['category_id'] . "' $selected>" . $category['category_name'] . "</option>";
+                }
+                ?>
                     </select>
                 </div>
                 <div class="col-md-3">
-                    <input type="number" name="min_price" placeholder="Min Price" class="form-control">
+                    <input type="number" name="min_price" placeholder="Min Price" class="form-control" value="<?php echo isset($_GET['min_price']) ? htmlspecialchars($_GET['min_price']) : ''; ?>">
                 </div>
                 <div class="col-md-3">
-                    <input type="number" name="max_price" placeholder="Max Price" class="form-control">
+                    <input type="number" name="max_price" placeholder="Max Price" class="form-control" value="<?php echo isset($_GET['max_price']) ? htmlspecialchars($_GET['max_price']) : ''; ?>">
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary btn-block">Filter</button>
@@ -109,7 +110,7 @@ $num = $stmt->rowCount();
 
     <?php
     // Include footer from the user directory
-    include 'user/footer.php';
+    include 'footer.php';
     ?>
 </body>
 

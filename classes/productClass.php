@@ -31,31 +31,45 @@ class Product
 
     // Read products with optional filters
     public function read($filters = [])
-    {
-        $query = "SELECT c.category_name as category_name, p.product_id, p.product_name, p.description, p.price, p.category_id, p.image_url
-                  FROM " . $this->table_name . " p 
-                  LEFT JOIN categories c ON p.category_id = c.category_id";
+{
+    $query = "SELECT c.category_name as category_name, p.product_id, p.product_name, p.description, p.price, p.category_id, p.image_url
+              FROM " . $this->table_name . " p 
+              LEFT JOIN categories c ON p.category_id = c.category_id";
 
-        if (!empty($filters)) {
-            $query .= " WHERE ";
-            $conditions = [];
-            foreach ($filters as $key => $value) {
-                $conditions[] = "p.$key = :$key";
+    $conditions = [];
+    $params = [];
+
+    if (!empty($filters)) {
+        foreach ($filters as $key => $value) {
+            if ($key == 'category_id') {
+                $conditions[] = "p.category_id = :category_id";
+                $params[':category_id'] = $value;
             }
-            $query .= implode(" AND ", $conditions);
-        }
-
-        $stmt = $this->conn->prepare($query);
-
-        if (!empty($filters)) {
-            foreach ($filters as $key => $value) {
-                $stmt->bindValue(":$key", $value);
+            if ($key == 'price >= ') {
+                $conditions[] = "p.price >= :min_price";
+                $params[':min_price'] = $value;
+            }
+            if ($key == 'price <= ') {
+                $conditions[] = "p.price <= :max_price";
+                $params[':max_price'] = $value;
             }
         }
-
-        $stmt->execute();
-        return $stmt;
     }
+
+    if (!empty($conditions)) {
+        $query .= " WHERE " . implode(" AND ", $conditions);
+    }
+
+    $stmt = $this->conn->prepare($query);
+
+    foreach ($params as $param => $value) {
+        $stmt->bindValue($param, $value);
+    }
+
+    $stmt->execute();
+    return $stmt;
+}
+
 
 
     public function readOne()

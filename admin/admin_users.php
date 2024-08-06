@@ -28,16 +28,18 @@ include 'header.php';
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>User ID</th>
+                    <th>User No</th>
                     <th>Username</th>
                     <th>Email</th>
                     <th>Registration Date</th>
                 </tr>
             </thead>
             <tbody>
-                <?php while ($row = $userStmt->fetch(PDO::FETCH_ASSOC)): ?>
+                <?php
+                $i = 1;
+                while ($row = $userStmt->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['user_id']); ?></td>
+                        <td><?php echo $i++; ?></td>
                         <td><?php echo htmlspecialchars($row['username']); ?></td>
                         <td><?php echo htmlspecialchars($row['email']); ?></td>
                         <td><?php echo htmlspecialchars($row['created_at']); ?></td>

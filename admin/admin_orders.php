@@ -28,18 +28,21 @@ include 'header.php';
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Order ID</th>
-                    <th>User ID</th>
+                    <th>Order No</th>
+                    <th>Username</th>
+                    <th>Email</th>
                     <th>Total Amount</th>
                     <th>Order Date</th>
                 </tr>
             </thead>
             <tbody>
+                <?php $i = 1; ?>
                 <?php while ($row = $orderStmt->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
-                        <td><?php echo htmlspecialchars($row['order_id']); ?></td>
-                        <td><?php echo htmlspecialchars($row['user_id']); ?></td>
-                        <td>$<?php echo htmlspecialchars($row['total_amount']); ?></td>
+                        <td><?php echo $i++; ?></td>
+                        <td><?php echo htmlspecialchars($row['username']); ?></td>
+                        <td><?php echo htmlspecialchars($row['email']); ?></td>
+                        <td>$<?php echo htmlspecialchars(number_format($row['total_amount'], 2)); ?></td>
                         <td><?php echo htmlspecialchars($row['order_date']); ?></td>
                     </tr>
                 <?php endwhile; ?>

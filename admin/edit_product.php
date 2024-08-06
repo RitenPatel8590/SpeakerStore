@@ -33,33 +33,64 @@ if (empty($product->product_name)) {
 // Handle form submission
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_product'])) {
-    $product->product_name = $_POST['name'];
-    $product->description = $_POST['description'];
-    $product->price = $_POST['price'];
-    $product->category_id = $_POST['category_id'];
-
-    // Handle file upload
-    if (isset($_FILES['image']['tmp_name']) && $_FILES['image']['tmp_name'] != '') {
-        $image_name = basename($_FILES['image']['name']);
-        $target_file = '../images/' . $image_name;
-
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-            $product->image_url = 'images/' . $image_name;
-        } else {
-            $message = "Failed to upload image.";
-        }
-    } else {
-        // Use the existing image URL if no new image is uploaded
-        $product->image_url = $_POST['existing_image_url'];
-    }
-
-    // Update product details
-    if ($product->update()) {
-        $message = "Product updated successfully!";
-        header("Location: admin_panel.php");
+    if (!isset($_POST['confirm'])) {
+        // Display confirmation message
+        include 'header.php';
+        ?>
+        <main class="container mt-5">
+            <div class="alert alert-warning">
+                Are you sure you want to update the product?
+                <form method="POST" action="edit_product.php?id=<?php echo htmlspecialchars($product->product_id); ?>"
+                    enctype="multipart/form-data">
+                    <?php
+                    foreach ($_POST as $key => $value) {
+                        if ($key !== 'update_product') {
+                            echo '<input type="hidden" name="' . htmlspecialchars($key) . '" value="' . htmlspecialchars($value) . '">';
+                        }
+                    }
+                    if (!empty($_FILES['image']['name'])) {
+                        echo '<input type="hidden" name="image_name" value="' . htmlspecialchars(basename($_FILES['image']['name'])) . '">';
+                        echo '<input type="hidden" name="image_tmp_name" value="' . htmlspecialchars($_FILES['image']['tmp_name']) . '">';
+                    }
+                    ?>
+                    <input type="hidden" name="confirm" value="1">
+                    <button type="submit" name="update_product" class="btn btn-primary">Yes</button>
+                    <a href="edit_product.php?id=<?php echo htmlspecialchars($product->product_id); ?>"
+                        class="btn btn-secondary">No</a>
+                </form>
+            </div>
+        </main>
+        <?php
+        include 'footer.php';
         exit();
     } else {
-        $message = "Failed to update product.";
+        // If confirmed, update product
+        $product->product_name = $_POST['product_name'];
+        $product->description = $_POST['description'];
+        $product->price = $_POST['price'];
+        $product->category_id = $_POST['category_id'];
+
+        // Handle file upload
+        if (!empty($_POST['image_tmp_name']) && !empty($_POST['image_name'])) {
+            $target_file = '../images/' . $_POST['image_name'];
+            if (move_uploaded_file($_POST['image_tmp_name'], $target_file)) {
+                $product->image_url = 'images/' . $_POST['image_name'];
+            } else {
+                $message = "Failed to upload image.";
+            }
+        } else {
+            // Use the existing image URL if no new image is uploaded
+            $product->image_url = $_POST['existing_image_url'];
+        }
+
+        // Update product details
+        if ($product->update()) {
+            $message = "Product updated successfully!";
+            header("Location: admin_panel.php");
+            exit();
+        } else {
+            $message = "Failed to update product.";
+        }
     }
 }
 

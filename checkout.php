@@ -217,40 +217,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $pdf->Cell(0, 6, '© 2024 Group 3 Speaker\'s Group. All rights reserved.', 0, 1, 'C');
                 $pdf->Cell(0, 6, 'Developed by: Mitul, Khush, and Riten', 0, 1, 'C');
                 $pdf_filename = 'Invoice_' . $order_id . '.pdf';
+                $pdf_path = 'invoices/' . $pdf_filename;
+                $pdf->Output('F', $pdf_path);
 
-                // Clear the cart
+
                 $cart->clearCart($user_id);
 
-                // Commit the transaction
+
                 $db->commit();
 
-                // Set appropriate headers for PDF download
-                header('Content-Type: application/pdf');
-                header('Content-Disposition: attachment; filename="' . $pdf_filename . '"');
-                header('Cache-Control: private, max-age=0, must-revalidate');
-                header('Pragma: public');
 
-                // Output PDF to browser
-                $pdf->Output('I', $pdf_filename);
+                $_SESSION['pdf_filename'] = $pdf_filename;
 
-                // Redirect to thank you page
-                header('Location: thankYou.php');
+
+                header('Location: open_pdf.php');
                 exit();
             }
         } catch (Exception $e) {
-            // Rollback the transaction in case of any error
+
             $db->rollBack();
             $errors['database'] = "Error processing your order: " . $e->getMessage();
         }
     } else {
-        // Handle errors or display them to the user
+
         foreach ($errors as $error) {
             echo "<p>$error</p>";
         }
     }
 }
 
-// Generate CSRF token
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }

@@ -1,0 +1,23 @@
+Group Project name: Group 3 Speaker's Group
+
+Recommendation: Need admin panel
+
+
+1. existing users can't register
+2. existing items can be upated in cart
+3. after checkout, cart is empty
+4. cart items can be deleted
+5. cart items can be updated
+
+
+
+admin panel
+
+userid admin@speaker.com
+password speaker@123
+
+
+userside
+userid khushviren03@gmail.com
+password 123
+

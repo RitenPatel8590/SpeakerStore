@@ -1,0 +1,79 @@
+:root {
+  --primaryColor: #5cbcc5;
+  --secondaryColor: #8dd7a2;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--secondaryColor);
+}
+
+header {
+  background-color: var(--primaryColor);
+  color: #fff;
+  padding: 1em;
+  text-align: center;
+}
+
+nav {
+  background-color: #000000;
+  transition: background-color 0.3s ease;
+}
+
+nav:hover {
+  background-color: #000000e1;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 1em;
+  text-decoration: none;
+}
+
+main {
+  padding: 2em;
+}
+
+.product-item_ {
+  background-color: #ffffffb9;
+  transition: background-color 0.3s ease;
+}
+
+.product-item_:hover {
+  background-color: #ffffff;
+}
+
+.product-list,
+.cart-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+
+.product-item,
+.cart-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 1em;
+  width: 200px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+button {
+  padding: 0.5em 1em;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #555;
+}

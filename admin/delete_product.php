@@ -20,7 +20,7 @@ if (!isset($_GET['id'])) {
     exit();
 }
 
-$product->id = $_GET['id'];
+$product->product_id = $_GET['id'];
 
 if ($product->delete()) {
     $message = "Product deleted successfully.";
@@ -33,3 +33,4 @@ echo "<script>
         window.location.href = 'admin_panel.php';
       </script>";
 exit();
+?>

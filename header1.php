@@ -16,6 +16,7 @@ $num = $stmt->rowCount();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./images/favicon.png" type="image/x-icon">
     <title>BoomBox Speakers - Premium Audio Experience</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
@@ -49,7 +50,10 @@ $num = $stmt->rowCount();
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="index.php">
-                    <i class="fas fa-volume-up mr-2"></i>BoomBox Speakers
+                    <img src="./images/CompanyLogo.png" alt="Company-Logo" style="height: 50px; margin-right: 15px;">
+                    BoomBox Speakers
+
+
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
